@@ -5,31 +5,33 @@ class CompleteMe
   attr_reader :root
 
   def initialize
-    @letters =* ("a".."z")
     @root    = Node.new
+    @number_of_words = 0
   end
 
   def insert(word, node = @root, index = 0)
-    letters_as_numbers = translate_word_to_index_positions(word.downcase)
-    insert_letters(letters_as_numbers)
+    letters = word.split("")
+    insert_letters(letters)
+  end
+
+  def insert_letters(letters, node = @root, index = 0)
+    next_letter = letters[index]
+
+    if next_letter == nil
+      node.set_end_of_word
+      @number_of_words += 1
+    elsif node.pointer_hash[next_letter] == nil
+      node.pointer_hash[next_letter] = Node.new
+      index += 1
+      insert_letters(letters, node.pointer_hash[next_letter], index)
+    else
+      index += 1
+      insert_letters(letters, node.pointer_hash[next_letter], index)
+    end
   end
 
   def count
-    counter = 0
-    counter = count_recursively(@root, counter)
-    counter
-  end
-
-  def count_recursively(node, counter)
-    node.pointer_array.each do |letter|
-      if !letter.nil? && letter.end_of_word == true
-        counter += 1
-        counter = count_recursively(letter, counter)
-      elsif !letter.nil?
-        counter = count_recursively(letter, counter)
-      end
-    end
-    counter
+    @number_of_words
   end
 
   def populate(words)
@@ -89,26 +91,4 @@ class CompleteMe
   # def select
   #
   # end
-
-  def translate_word_to_index_positions(word)
-    word = word.split("")
-    index_array = word.map do |letter|
-      @letters.index(letter)
-    end
-  end
-
-  def insert_letters(letters_as_numbers, node = @root, index = 0)
-    next_letter = letters_as_numbers[index]
-
-    if next_letter == nil
-      node.set_end_of_word
-    elsif node.pointer_array[next_letter] == nil
-      node.pointer_array[next_letter] = Node.new
-      index += 1
-      insert_letters(letters_as_numbers, node.pointer_array[next_letter], index)
-    else
-      index += 1
-      insert_letters(letters_as_numbers, node.pointer_array[next_letter], index)
-    end
-  end
 end

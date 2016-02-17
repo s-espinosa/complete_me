@@ -1,10 +1,9 @@
 class Node
-  attr_reader :end_of_word, :pointer_array
+  attr_reader :end_of_word, :pointer_hash
 
   def initialize
     @end_of_word = false
-    @pointer_array = []
-    26.times do @pointer_array.push(nil) end
+    @pointer_hash = {}
   end
 
   def set_end_of_word

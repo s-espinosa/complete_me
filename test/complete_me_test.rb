@@ -18,17 +18,17 @@ class CompleteMeTest < Minitest::Test
     comp.insert("babe")
 
     assert comp.root
-    refute comp.root.pointer_array[1].nil?
-    b = comp.root.pointer_array[1]
+    refute comp.root.pointer_hash["b"].nil?
+    b = comp.root.pointer_hash["b"]
 
-    refute b.pointer_array[0].nil?
-    a = b.pointer_array[0]
+    refute b.pointer_hash["a"].nil?
+    a = b.pointer_hash["a"]
 
-    refute a.pointer_array[1].nil?
-    b = a.pointer_array[1]
+    refute a.pointer_hash["b"].nil?
+    b = a.pointer_hash["b"]
 
-    refute b.pointer_array[4].nil?
-    e = b.pointer_array[4]
+    refute b.pointer_hash["e"].nil?
+    e = b.pointer_hash["e"]
 
     assert e.end_of_word
   end
@@ -58,14 +58,6 @@ class CompleteMeTest < Minitest::Test
     comp.populate(dictionary)
 
     assert_equal 235886, comp.count
+    assert_equal 235886, comp.alt_count    
   end
-
-  def test_it_translates_words_to_indices
-    complete = CompleteMe.new
-
-    actual = complete.translate_word_to_index_positions("baby")
-    expected = [1, 0, 1, 24]
-    assert_equal expected, actual
-  end
-
 end
