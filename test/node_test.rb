@@ -12,10 +12,10 @@ class CompleteMeTest < Minitest::Test
     assert node.is_a?(Object)
   end
 
-  def test_it_initializes_with_an_empty_26_value_long_array
+  def test_it_initializes_with_an_empty_hash
     node = Node.new
-    expected = [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
-    actual   = node.pointer_array
+    expected = {}
+    actual   = node.pointer_hash
 
     assert_equal expected, actual
   end
