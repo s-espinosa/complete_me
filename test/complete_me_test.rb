@@ -58,6 +58,5 @@ class CompleteMeTest < Minitest::Test
     comp.populate(dictionary)
 
     assert_equal 235886, comp.count
-    assert_equal 235886, comp.alt_count    
   end
 end
