@@ -42,8 +42,22 @@ class CompleteMeTest < Minitest::Test
     assert_equal 3, comp.count
   end
 
-  def test_it_has_a_head_with_all_letters_as_children
+  def test_it_suggests_potential_words_given_a_prefix
     skip
+    comp = CompleteMe.new
+    comp.insert("pizza")
+    actual = comp.suggest("piz")
+
+    assert_equal "pizza", actual
+  end
+
+  def test_it_populates_with_words_given_dictionary_input
+    comp = CompleteMe.new
+    dictionary = File.read('/usr/share/dict/words')
+
+    comp.populate(dictionary)
+
+    assert_equal 235886, comp.count
   end
 
   def test_it_translates_words_to_indices
