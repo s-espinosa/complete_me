@@ -14,6 +14,24 @@ class CompleteMe
     insert_letters(letters_as_numbers)
   end
 
+  def count
+    counter = 0
+    counter = count_recursively(@root, counter)
+    counter
+  end
+
+  def count_recursively(node, counter)
+    node.pointer_array.each do |letter|
+      if !letter.nil? && letter.end_of_word == true
+        counter += 1
+        counter = count_recursively(letter, counter)
+      elsif !letter.nil?
+        counter = count_recursively(letter, counter)
+      end
+    end
+    counter
+  end
+
   # def count
   #
   # end

@@ -14,11 +14,32 @@ class CompleteMeTest < Minitest::Test
   end
 
   def test_it_can_insert_single_words
-    skip
+    comp = CompleteMe.new
+    comp.insert("babe")
+
+    assert comp.root
+    refute comp.root.pointer_array[1].nil?
+    b = comp.root.pointer_array[1]
+
+    refute b.pointer_array[0].nil?
+    a = b.pointer_array[0]
+
+    refute a.pointer_array[1].nil?
+    b = a.pointer_array[1]
+
+    refute b.pointer_array[4].nil?
+    e = b.pointer_array[4]
+
+    assert e.end_of_word
   end
 
   def test_it_can_count_the_number_of_words_inserted
-    skip
+    comp = CompleteMe.new
+    comp.insert("babe")
+    comp.insert("pizza")
+    comp.insert("piano")
+
+    assert_equal 3, comp.count
   end
 
   def test_it_has_a_head_with_all_letters_as_children
