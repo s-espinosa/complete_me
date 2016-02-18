@@ -34,29 +34,6 @@ class CompleteMe
     suggested_words = check_suggested(potential_words, prefix)
   end
 
-  def check_suggested(potential_words, prefix)
-    if @recommendations.keys.include?(prefix)
-      suggested_words = sort_suggested(potential_words, prefix)
-    else
-      suggested_words = potential_words
-    end
-    suggested_words
-  end
-
-  def sort_suggested(potential_words, prefix)
-    recommended_words = @recommendations[prefix]
-
-    sorted_recommendation_hash = recommended_words.sort_by{ |word, score| score }.reverse
-
-    suggested_array = sorted_recommendation_hash.map{ |word, score| word }
-
-    potential_words.each do |word|
-      suggested_array.push(word) if !suggested_array.include?(word)
-    end
-
-    suggested_array
-  end
-
   def select(prefix, word)
     if @recommendations[prefix] && @recommendations[prefix][word]
       @recommendations[prefix][word] += 1
@@ -103,5 +80,28 @@ class CompleteMe
       prefix.pop
     end
     words
+  end
+
+  def check_suggested(potential_words, prefix)
+    if @recommendations.keys.include?(prefix)
+      suggested_words = sort_suggested(potential_words, prefix)
+    else
+      suggested_words = potential_words
+    end
+    suggested_words
+  end
+
+  def sort_suggested(potential_words, prefix)
+    recommended_words = @recommendations[prefix]
+
+    sorted_recommendation_hash = recommended_words.sort_by{ |word, score| score }.reverse
+
+    suggested_array = sorted_recommendation_hash.map{ |word, score| word }
+
+    potential_words.each do |word|
+      suggested_array.push(word) if !suggested_array.include?(word)
+    end
+
+    suggested_array
   end
 end
