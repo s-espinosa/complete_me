@@ -7,6 +7,7 @@ class CompleteMe
   def initialize
     @root    = Node.new
     @number_of_words = 0
+    @recommendations = {}
   end
 
   def insert(word)
@@ -32,11 +33,15 @@ class CompleteMe
     potential_words = find_all_words(starting_node, letter_array)
   end
 
-
-
-  # def select
-  #
-  # end
+  def select(prefix, word)
+    if @recommendations[prefix] && @recommendations[prefix][word]
+      @recommendations[prefix][word] += 1
+    elsif !@recommendations[prefix]
+      @recommendations[prefix] = {word => 1}
+    else
+      @recommendations[prefix][word] = 1
+    end
+  end
 
   private
 
