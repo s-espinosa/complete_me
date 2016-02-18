@@ -80,4 +80,30 @@ class CompleteMeTest < Minitest::Test
     assert_equal 235886, comp.count
   end
 
+  def test_it_sorts_suggested_words_based_on_previous_input
+    completion = CompleteMe.new
+
+    dictionary = File.read("/usr/share/dict/words")
+
+    completion.populate(dictionary)
+
+    completion.select("piz", "pizzeria")
+    completion.select("piz", "pizzeria")
+    completion.select("piz", "pizzeria")
+
+    completion.select("pi", "pizza")
+    completion.select("pi", "pizza")
+    completion.select("pi", "pizzicato")
+
+    actual   = completion.suggest("piz")
+    expected = ["pizzeria", "pizza", "pizzicato"]
+
+    assert_equal expected, actual
+
+    actual   = completion.suggest("pi")
+    expected = ["pizza", "pizzicato","pizzeria"]
+
+    assert_equal expected, actual
+  end
+
 end
