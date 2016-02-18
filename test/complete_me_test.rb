@@ -42,21 +42,6 @@ class CompleteMeTest < Minitest::Test
     assert_equal 3, comp.count
   end
 
-  def test_it_can_find_an_array_given_a_search_string
-    comp = CompleteMe.new
-    comp.insert("pizza")
-
-    z_node = comp.find_node("piz")
-
-    refute z_node.pointer_hash["z"].nil?
-    z_node = z_node.pointer_hash["z"]
-
-    refute z_node.pointer_hash["a"].nil?
-    a_node = z_node.pointer_hash["a"]
-
-    assert_equal Hash.new, a_node.pointer_hash
-  end
-
   def test_it_suggests_an_existing_word_given_a_prefix
     comp = CompleteMe.new
     comp.insert("pizza")
