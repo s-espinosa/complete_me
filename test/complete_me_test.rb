@@ -63,7 +63,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_suggests_potential_words_from_a_dictionary
     comp = CompleteMe.new
-    dictionary = File.read('/usr/share/dict/words')
+    dictionary = File.read('bin/words')
     comp.populate(dictionary)
 
     actual = comp.suggest("piz")
@@ -73,7 +73,7 @@ class CompleteMeTest < Minitest::Test
 
   def test_it_populates_with_words_given_dictionary_input
     comp = CompleteMe.new
-    dictionary = File.read('/usr/share/dict/words')
+    dictionary = File.read('bin/words')
 
     comp.populate(dictionary)
 
@@ -96,12 +96,12 @@ class CompleteMeTest < Minitest::Test
     completion.select("pi", "pizzicato")
 
     actual   = completion.suggest("piz")
-    expected = ["pizzeria", "pizza", "pizzicato"]
+    expected = ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]
 
     assert_equal expected, actual
 
     actual   = completion.suggest("pi")
-    expected = ["pizza", "pizzicato","pizzeria"]
+    expected = ["pizza", "pizzicato", "pize", "pizzeria", "pizzle"]
 
     assert_equal expected, actual
   end
