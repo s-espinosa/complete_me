@@ -83,7 +83,7 @@ class CompleteMeTest < Minitest::Test
   def test_it_sorts_suggested_words_based_on_previous_input
     completion = CompleteMe.new
 
-    dictionary = File.read("/usr/share/dict/words")
+    dictionary = File.read("bin/words")
 
     completion.populate(dictionary)
 
@@ -91,17 +91,17 @@ class CompleteMeTest < Minitest::Test
     completion.select("piz", "pizzeria")
     completion.select("piz", "pizzeria")
 
-    completion.select("pi", "pizza")
-    completion.select("pi", "pizza")
-    completion.select("pi", "pizzicato")
+    completion.select("pizz", "pizza")
+    completion.select("pizz", "pizza")
+    completion.select("pizz", "pizzicato")
 
     actual   = completion.suggest("piz")
     expected = ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]
 
     assert_equal expected, actual
 
-    actual   = completion.suggest("pi")
-    expected = ["pizza", "pizzicato", "pize", "pizzeria", "pizzle"]
+    actual   = completion.suggest("pizz")
+    expected = ["pizza", "pizzicato", "pizzeria", "pizzle"]
 
     assert_equal expected, actual
   end

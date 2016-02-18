@@ -31,6 +31,30 @@ class CompleteMe
     starting_node = find_node(letter_array)
 
     potential_words = find_all_words(starting_node, letter_array)
+    suggested_words = check_suggested(potential_words, prefix)
+  end
+
+  def check_suggested(potential_words, prefix)
+    if @recommendations.keys.include?(prefix)
+      suggested_words = sort_suggested(potential_words, prefix)
+    else
+      suggested_words = potential_words
+    end
+    suggested_words
+  end
+
+  def sort_suggested(potential_words, prefix)
+    recommended_words = @recommendations[prefix]
+
+    sorted_recommendation_hash = recommended_words.sort_by{ |word, score| score }.reverse
+
+    suggested_array = sorted_recommendation_hash.map{ |word, score| word }
+
+    potential_words.each do |word|
+      suggested_array.push(word) if !suggested_array.include?(word)
+    end
+
+    suggested_array
   end
 
   def select(prefix, word)
@@ -72,23 +96,12 @@ class CompleteMe
   end
 
   def find_all_words(node, prefix = [], words = [])
-    if node.end_of_word
-      words << prefix.join
-    else
-      node.pointer_hash.each do |letter, letter_node|
-        prefix << letter
-        find_all_words(letter_node, prefix, words)
-        prefix.pop
-      end
+    words << prefix.join if node.end_of_word
+    node.pointer_hash.each do |letter, letter_node|
+      prefix << letter
+      find_all_words(letter_node, prefix, words)
+      prefix.pop
     end
     words
   end
-end
-
-if __FILE__ == $0
-  comp = CompleteMe.new
-  comp.insert("pizza")
-  comp.insert("pizzeria")
-  comp.insert("piano")
-  puts comp.suggest("piz").inspect
 end
