@@ -14,22 +14,6 @@ class CompleteMe
     insert_letters(letters)
   end
 
-  def insert_letters(letters, node = @root, index = 0)
-    next_letter = letters[index]
-
-    if next_letter == nil
-      node.set_end_of_word
-      @number_of_words += 1
-    elsif node.pointer_hash[next_letter] == nil
-      node.pointer_hash[next_letter] = Node.new
-      index += 1
-      insert_letters(letters, node.pointer_hash[next_letter], index)
-    else
-      index += 1
-      insert_letters(letters, node.pointer_hash[next_letter], index)
-    end
-  end
-
   def count
     @number_of_words
   end
@@ -46,6 +30,30 @@ class CompleteMe
     starting_node = find_node(letter_array)
 
     potential_words = find_all_words(starting_node, letter_array)
+  end
+
+
+
+  # def select
+  #
+  # end
+
+  private
+
+  def insert_letters(letters, node = @root, index = 0)
+    next_letter = letters[index]
+
+    if next_letter == nil
+      node.set_end_of_word
+      @number_of_words += 1
+    elsif node.pointer_hash[next_letter] == nil
+      node.pointer_hash[next_letter] = Node.new
+      index += 1
+      insert_letters(letters, node.pointer_hash[next_letter], index)
+    else
+      index += 1
+      insert_letters(letters, node.pointer_hash[next_letter], index)
+    end
   end
 
   def find_node(letter_array, node = @root, index = 0)
@@ -70,10 +78,6 @@ class CompleteMe
     end
     words
   end
-
-  # def select
-  #
-  # end
 end
 
 if __FILE__ == $0
@@ -81,7 +85,5 @@ if __FILE__ == $0
   comp.insert("pizza")
   comp.insert("pizzeria")
   comp.insert("piano")
-  word_array = comp.find_all_words(comp.root)
-  puts word_array.inspect
   puts comp.suggest("piz").inspect
 end
