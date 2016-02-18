@@ -9,7 +9,7 @@ class CompleteMe
     @number_of_words = 0
   end
 
-  def insert(word, node = @root, index = 0)
+  def insert(word)
     letters = word.split("")
     insert_letters(letters)
   end
@@ -46,9 +46,6 @@ class CompleteMe
     starting_node = find_node(letter_array)
 
     potential_words = find_all_words(starting_node, letter_array)
-    # all_words = potential_words.map do |word|
-    #   prefix + word
-    # end
   end
 
   def find_node(letter_array, node = @root, index = 0)
@@ -62,14 +59,12 @@ class CompleteMe
   end
 
   def find_all_words(node, prefix = [], words = [])
-    # original_prefix = prefix.dup
     if node.end_of_word
       words << prefix.join
     else
       node.pointer_hash.each do |letter, letter_node|
         prefix << letter
         find_all_words(letter_node, prefix, words)
-        # prefix = original_prefix
         prefix.pop
       end
     end
