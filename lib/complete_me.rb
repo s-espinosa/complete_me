@@ -41,54 +41,52 @@ class CompleteMe
     end
   end
 
+  def suggest(prefix)
+    letter_array = prefix.chars
+    starting_node = find_node(letter_array)
 
-  # def suggest(prefix)
-  #   word_indices = translate_word_to_index_positions(prefix)
-  #   base_node = find_node(word_indices)
-  #
-  #   suggestions = []
-  #   suggestions = all_child_words(suggestions, base_node, prefix)
-  #   suggestions
-  #   # return an array of the potential words collected
-  # end
-  #
-  # def all_child_words(suggestions, node, prefix)
-  #   non_nil_children = node.pointer_array.select{|pointer| !pointer.nil?}
-  #
-  #   if non_nil_children == []
-  #     suggestions << prefix
-  #     #base case if all the items in the pointer_array are nil
-  #     #push the word to the return_array
-  #   elsif node.end_of_word == true
-  #     prefix = prefix +
-  #     suggestions << prefix
-  #     non_nil_children.each do |child|
-  #       all_child_words(suggestions, child, prefix)
-  #     end
-  #     #elsif the end_of_word flag is true
-  #     #push the word to the return array
-  #     #call all_child_words for each of the non-nil items in the pointer_array
-  #   else
-  #     non_nil_children.each do |child|
-  #       all_child_words(suggestions, child, prefix)
-  #     end
-  #   end
-  #   #else
-  #   #call all_child_words for each of the non-nil items in the pointer_array
-  # end
-  #
-  # def find_node(index_array, node = @root, index = 0)
-  #   if index_array.length == index
-  #     node
-  #   else
-  #     new_node = node.pointer_array[index_array[index]]
-  #     index += 1
-  #     find_node(index_array, new_node, index)
-  #   end
-  # end
-  #
-  #
+    potential_words = find_all_words(starting_node, letter_array)
+    # all_words = potential_words.map do |word|
+    #   prefix + word
+    # end
+  end
+
+  def find_node(letter_array, node = @root, index = 0)
+    if letter_array.length == index
+      node
+    else
+      new_node = node.pointer_hash[letter_array[index]]
+      index += 1
+      find_node(letter_array, new_node, index)
+    end
+  end
+
+  def find_all_words(node, prefix = [], words = [])
+    # original_prefix = prefix.dup
+    if node.end_of_word
+      words << prefix.join
+    else
+      node.pointer_hash.each do |letter, letter_node|
+        prefix << letter
+        find_all_words(letter_node, prefix, words)
+        # prefix = original_prefix
+        prefix.pop
+      end
+    end
+    words
+  end
+
   # def select
   #
   # end
+end
+
+if __FILE__ == $0
+  comp = CompleteMe.new
+  comp.insert("pizza")
+  comp.insert("pizzeria")
+  comp.insert("piano")
+  word_array = comp.find_all_words(comp.root)
+  puts word_array.inspect
+  puts comp.suggest("piz").inspect
 end
