@@ -106,4 +106,12 @@ class CompleteMeTest < Minitest::Test
     assert_equal expected, actual
   end
 
+  def test_it_imports_addresses_from_CSV
+    comp = CompleteMe.new
+    comp.import('bin/addresses.csv')
+
+    actual = comp.suggest("4762 S")
+
+    assert_equal ["4762 S Gar Way", "4762 S Newton St", "4762 S Wabash St", "4762 S Xenia St"], actual
+  end
 end

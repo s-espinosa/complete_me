@@ -1,4 +1,5 @@
 require 'pry'
+require 'csv'
 require_relative 'node'
 
 class CompleteMe
@@ -23,6 +24,16 @@ class CompleteMe
     word_array = words.split("\n")
     word_array.each do |word|
       insert(word)
+    end
+  end
+
+  def import(addresses_csv_file)
+    address_array = Array.new
+    CSV.foreach(addresses_csv_file) do |row|
+      address_array << row[-1]
+    end
+    address_array.each do |address|
+      insert(address)
     end
   end
 
