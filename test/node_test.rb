@@ -6,7 +6,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require_relative '../lib/node.rb'
 
-class CompleteMeTest < Minitest::Test
+class NodeTest < Minitest::Test
   def test_it_can_initialize_without_any_parameters
     node = Node.new
     assert node.is_a?(Object)
