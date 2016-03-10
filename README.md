@@ -1,11 +1,6 @@
----
-layout: page
-title: CompleteMe
----
-
 ## CompleteMe
 
-__CompleteMe__ explores using a trie to create a simple textual autocomplete system. It represents an autocomplete system which provides the following features:
+__CompleteMe__ explores using a trie to create a simple textual autocomplete system providing the following features:
 
 1. Insert a single word to the autocomplete dictionary
 2. Count the number of words in the dictionary
@@ -16,7 +11,7 @@ __CompleteMe__ explores using a trie to create a simple textual autocomplete sys
 
 ### Basic Interaction Model
 
-We'll expect to interact with your completion project from an interactive pry session, following a model something like this:
+You can interact with __CompleteMe__ from a pry session, using the following model:
 
 ```ruby
 # open pry from root project directory
@@ -45,12 +40,11 @@ completion.suggest("piz")
 
 ### Usage Weighting
 
-In order to provide better suggestions over time, CompleteMe can be "trained"based on a user's actual selections. So, if a user consistently selects "pizza" in response to completions for "pizz", pizza becomes their first suggestion when "pizz" is entered.
+In order to provide better suggestions over time, CompleteMe can be "trained" based on a user's actual selections. So, if a user consistently selects "pizza" in response to completions for "pizz", pizza becomes their first suggestion when "pizz" is entered.
 
 To facilitate this, the library supports a `select` method, which takes a substring and the selected suggestion. This selection is recorded in the trie, and used to influence future suggestions
 
 Here's what that interaction model looks like:
-
 
 ```ruby
 require "./lib/complete_me"
@@ -73,11 +67,9 @@ completion.suggest("piz")
 
 ### Substring-Specific Selection Tracking
 
-In order to provide more sophisticated suggestions selection information is tracked _per completion string_.
+In order to provide more sophisticated suggestions, selection information is tracked _per completion string_. That is, when `select`ing a given word, that selection is only counted toward subsequent suggestions against the same substring. Here's an example:
 
-That is, when `select`ing a given word, that selection is only counted toward subsequent suggestions against the same substring. Here's an example:
-
-```
+```ruby
 require "./lib/complete_me"
 
 completion = CompleteMe.new
@@ -119,6 +111,8 @@ What we end up with is a broadly-branched tree where paths from the root to the 
 
 ### Input File
 
+#### The Dictionary
+
 Of course, our Trie won't be very useful without a good dataset
 to populate it. Fortunately, our computers ship with a special
 file containing a list of standard dictionary words.
@@ -134,7 +128,7 @@ $ cat /usr/share/dict/words | wc -l
 
 Should be enough for us!
 
-### Denver Addresses
+#### Denver Addresses
 
 This implementation also provides support for a larger dataset: [this data file](http://data.denvergov.org/dataset/city-and-county-of-denver-addresses) which contains all the known addresses in the city of Denver.
 
